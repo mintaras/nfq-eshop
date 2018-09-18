@@ -28,3 +28,7 @@ export function scrollToPosition(position) {
     window.scrollTo(0, c - c / 8);
   }
 };
+
+export function getExcerpt(text, length) {
+  return text.length > length ? `${text.substring(0, length - 3)}...` : text;
+}

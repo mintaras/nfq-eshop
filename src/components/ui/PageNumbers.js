@@ -67,6 +67,7 @@ const styles = {
       padding: '5px 10px',
       lineHeight: '1',
       textDecoration: 'none',
+      color: '#333',
       '&.active': {
         backgroundColor: '#febd69',
         borderColor: '#febd69',

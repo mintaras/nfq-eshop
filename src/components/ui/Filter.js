@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 class Filter extends Component {
 
   state = {
-    items: this.props.data,
     checkedItems: [],
   };
 
@@ -37,10 +36,9 @@ class Filter extends Component {
   }
 
   getFilters() {
-    const { classes, name } = this.props;
-    const { items } = this.state;
+    const { classes, name, data } = this.props;
 
-    return items.map((item) => {
+    return data.map((item) => {
       const id = `${item.name}-${item.id}`;
       return (
         <li key={id}>

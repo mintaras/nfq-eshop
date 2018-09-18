@@ -21,28 +21,40 @@ class Orders extends Component {
     itemsPerPage: 5,
   };
 
-  handlePageNumberClick = (event) => {
+  handlePageNumberClick = (event, callback = null) => {
     event.preventDefault();
-    this.setState({
-      currentPage: Number(event.target.id)
-    });
+
+    this.setState(
+      {currentPage: Number(event.target.id)},
+      callback
+    );
+  }
+
+  gotToPage(number) {
+    this.setState({ currentPage: number });
+  }
+
+  updateItems(callback) {
+    this.setState(
+      prevState => ({items: callback(prevState)}),
+      () => this.gotToPage(1)
+    );
   }
 
   handleOrdersSearch = (event) => {
     event.preventDefault();
-    this.setState({searchText: event.target.search.value}, () => {
-      this.setState(prevState => ({items: searchItems(prevState)}), () => {
-        this.setState({ currentPage: 1 });
-      });
-    });
+
+    this.setState(
+      {searchText: event.target.search.value},
+      () => this.updateItems(searchItems)
+    );
   }
 
   handleOrdersFilter = (selected, filterType) => {
-    this.setState({selectedFilters: selected, filterType}, () => {
-      this.setState(prevState => ({items: filterItems(prevState)}), () => {
-        this.setState({ currentPage: 1 });
-      });
-    });
+    this.setState(
+      {selectedFilters: selected, filterType},
+      () => this.updateItems(filterItems)
+    );
   }
 
   getOrders() {

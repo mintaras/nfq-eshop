@@ -538,7 +538,7 @@ export const orders = [
   },
   {
     id: 11,
-    status: 'delivery',
+    status: 'completed',
     client: {
       name: 'Jon Doe',
       email: 'jondoe@gmail.com',
@@ -548,7 +548,7 @@ export const orders = [
   },
   {
     id: 12,
-    status: 'pending',
+    status: 'delivery',
     client: {
       name: 'Sandra Seagel',
       email: 'sansea@gmail.com',
@@ -568,7 +568,7 @@ export const orders = [
   },
   {
     id: 14,
-    status: 'delivery',
+    status: 'completed',
     client: {
       name: 'Luis Sicon',
       email: 'luis@gmail.com',
@@ -578,7 +578,7 @@ export const orders = [
   },
   {
     id: 15,
-    status: 'pending',
+    status: 'delivery',
     client: {
       name: 'Ora Lion',
       email: 'oralion@gmail.com',
@@ -598,7 +598,7 @@ export const orders = [
   },
   {
     id: 17,
-    status: 'delivery',
+    status: 'completed',
     client: {
       name: 'Ingi Laus',
       email: 'ingilaus@gmail.com',
@@ -618,7 +618,7 @@ export const orders = [
   },
   {
     id: 19,
-    status: 'pending',
+    status: 'delivery',
     client: {
       name: 'Luka Modri',
       email: 'lukamodri@gmail.com',
@@ -628,7 +628,7 @@ export const orders = [
   },
   {
     id: 20,
-    status: 'delivery',
+    status: 'completed',
     client: {
       name: 'Juan Dam',
       email: 'Dam@gmail.com',

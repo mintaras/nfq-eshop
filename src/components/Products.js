@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import injectSheet from 'react-jss';
 import * as C from '../common/constants';
 import { bags, hoodies, filters } from '../common/data';
-import { searchItems, filterItems, getPagedItems } from '../common/utils';
+import { searchItems, filterItems, getPagedItems, getExcerpt } from '../common/utils';
 import Filter from './ui/Filter';
 import PageNumbers from './ui/PageNumbers';
 import Header from './ui/products/Header';
@@ -24,32 +24,37 @@ class Products extends Component {
   handlePageNumberClick = (event, callback = null) => {
     event.preventDefault();
 
-    this.setState({
-      currentPage: Number(event.target.id)
-    }, callback);
+    this.setState(
+      {currentPage: Number(event.target.id)},
+      callback
+    );
+  }
+
+  gotToPage(number) {
+    this.setState({ currentPage: number });
+  }
+
+  updateItems(callback) {
+    this.setState(
+      prevState => ({items: callback(prevState)}),
+      () => this.gotToPage(1)
+    );
   }
 
   handleProductsSearch = (event) => {
     event.preventDefault();
 
-    this.setState({searchText: event.target.search.value}, () => {
-      this.setState(prevState => ({items: searchItems(prevState)}), () => {
-        this.setState({ currentPage: 1 });
-      });
-    });
+    this.setState(
+      {searchText: event.target.search.value},
+      () => this.updateItems(searchItems)
+    );
   }
 
   handleProductsFilter = (selected, filterType) => {
-    this.setState({selectedFilters: selected, filterType}, () => {
-      this.setState(prevState => ({items: filterItems(prevState)}), () => {
-        this.setState({ currentPage: 1 });
-      });
-    });
-  }
-
-  getTitleExcerpt(title, length) {
-    console.log(title.length, length);
-    return title.length > length ? `${title.substring(0, length - 3)}...` : title;
+    this.setState(
+      {selectedFilters: selected, filterType},
+      () => this.updateItems(filterItems)
+    );
   }
 
   getProducts() {
@@ -61,7 +66,7 @@ class Products extends Component {
         return (
           <li key={product.id} className={classes.product}>
             <div><img src={product.imageUrl} alt={product.name} /></div>
-            <div className="title">{this.getTitleExcerpt(product.title, 52)}</div>
+            <div className="title">{getExcerpt(product.title, 52)}</div>
             <div className="price">
               <sup className="price-currency">{C.CURRENCY_SYM}</sup>
               {product.price}
