@@ -435,7 +435,6 @@ export const hoodies = [
     gender: 'male',
   },
 ];
-
 export const orders = [
   {
     id: 1,
@@ -537,8 +536,107 @@ export const orders = [
     shipTo: 'Juan Dam, Baget st. 73, Paris, France',
     total: '67.98',
   },
+  {
+    id: 11,
+    status: 'delivery',
+    client: {
+      name: 'Jon Doe',
+      email: 'jondoe@gmail.com',
+    },
+    shipTo: 'Jon Doe, Santiago st. 322, Lisaboa, Portugal',
+    total: '12.99',
+  },
+  {
+    id: 12,
+    status: 'pending',
+    client: {
+      name: 'Sandra Seagel',
+      email: 'sansea@gmail.com',
+    },
+    shipTo: 'Sandra Seagel, Jose st. 65, Murcia, Spain',
+    total: '54.43',
+  },
+  {
+    id: 13,
+    status: 'completed',
+    client: {
+      name: 'Matt Don',
+      email: 'mattdon@gmail.com',
+    },
+    shipTo: 'Matt Don, Braun st. 92, Berlin, Germany',
+    total: '75.13',
+  },
+  {
+    id: 14,
+    status: 'delivery',
+    client: {
+      name: 'Luis Sicon',
+      email: 'luis@gmail.com',
+    },
+    shipTo: 'Luis Sicon, Bologne st. 76, Rome, Italy',
+    total: '45.55',
+  },
+  {
+    id: 15,
+    status: 'pending',
+    client: {
+      name: 'Ora Lion',
+      email: 'oralion@gmail.com',
+    },
+    shipTo: 'Ora Lion, Sheez st. 45, Venice, Italy',
+    total: '15.63',
+  },
+  {
+    id: 16,
+    status: 'completed',
+    client: {
+      name: 'Tomasz Modri',
+      email: 'tomasz@gmail.com',
+    },
+    shipTo: 'Tomasz Modri, Berlin st. 224, Warsaw, Poland',
+    total: '90.12',
+  },
+  {
+    id: 17,
+    status: 'delivery',
+    client: {
+      name: 'Ingi Laus',
+      email: 'ingilaus@gmail.com',
+    },
+    shipTo: 'Ingi Laus, Braun st. 77, Talinn, Estonia',
+    total: '33.89',
+  },
+  {
+    id: 18,
+    status: 'completed',
+    client: {
+      name: 'Olga Ribak',
+      email: 'ribakol@gmail.com',
+    },
+    shipTo: 'Olga Ribak, Zuvi st. 2, Riga, Latvia',
+    total: '92.56',
+  },
+  {
+    id: 19,
+    status: 'pending',
+    client: {
+      name: 'Luka Modri',
+      email: 'lukamodri@gmail.com',
+    },
+    shipTo: 'Luka Modri, Opoli st. 567, Nudi, Croatia',
+    total: '112.87',
+  },
+  {
+    id: 20,
+    status: 'delivery',
+    client: {
+      name: 'Juan Dam',
+      email: 'Dam@gmail.com',
+    },
+    shipTo: 'Juan Dam, Baget st. 73, Paris, France',
+    total: '67.98',
+  },
 ];
-
 export const filters = [
   {id: 1, name: 'adidas', isChecked: false},
   {id: 2, name: 'nike', isChecked: false},

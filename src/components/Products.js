@@ -10,6 +10,10 @@ import Hero from './ui/products/Hero';
 
 class Products extends Component {
 
+  componentDidMount() {
+    this.setListPosition();
+  }
+
   state = {
     data: { items: [...bags, ...hoodies] },
     items: [...bags, ...hoodies],
@@ -21,24 +25,35 @@ class Products extends Component {
     itemsPerPage: 9,
   };
 
-  handlePageNumberClick = (event) => {
+  handlePageNumberClick = (event, callback = null) => {
     event.preventDefault();
+
     this.setState({
       currentPage: Number(event.target.id)
-    });
+    }, callback);
   }
 
   handleProductsSearch = (event) => {
     event.preventDefault();
+
     this.setState({searchText: event.target.search.value}, () => {
-      this.setState(prevState => ({items: searchItems(prevState)}));
+      this.setState(prevState => ({items: searchItems(prevState)}), () => {
+        this.setState({ currentPage: 1 });
+      });
     });
   }
 
   handleProductsFilter = (selected, filterType) => {
     this.setState({selectedFilters: selected, filterType}, () => {
-      this.setState(prevState => ({items: filterItems(prevState)}));
+      this.setState(prevState => ({items: filterItems(prevState)}), () => {
+        this.setState({ currentPage: 1 });
+      });
     });
+  }
+
+  setListPosition = () => {
+    const offsetTop  = this.refs.productsList.getBoundingClientRect().top;
+    this.setState({listOffsetTopPosition: offsetTop});
   }
 
   getProducts() {
@@ -65,7 +80,7 @@ class Products extends Component {
 
   render() {
     const { classes } = this.props;
-    const { itemsPerPage, currentPage, items } = this.state;
+    const { itemsPerPage, currentPage, items, listOffsetTopPosition } = this.state;
     const total = items.length;
 
     return (
@@ -80,16 +95,19 @@ class Products extends Component {
             data={filters}
             onChange={this.handleProductsFilter}
           />
-          <ul className={classes.products}>
+          <ul className={classes.products} ref="productsList">
             {this.getProducts()}
           </ul>
-          <PageNumbers
-            itemsPerPage={itemsPerPage}
-            currentPage={currentPage}
-            items={items}
-            total={total}
-            onClick={this.handlePageNumberClick}
-          />
+          <div className={classes.pagination}>
+            <PageNumbers
+              itemsPerPage={itemsPerPage}
+              currentPage={currentPage}
+              items={items}
+              total={total}
+              onClick={this.handlePageNumberClick}
+              scrollTo={listOffsetTopPosition}
+            />
+          </div>
         </div>
       </div>
     );
@@ -132,6 +150,9 @@ const styles = {
       width: '100%',
     },
   },
+  pagination: {
+    textAlign: 'center',
+  }
 };
 
 export default injectSheet(styles)(Products);

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import injectSheet from 'react-jss';
+import PropTypes from 'prop-types';
 
 class Search extends Component {
 
@@ -16,7 +17,7 @@ class Search extends Component {
 
   displayReset() {
     const { classes } = this.props;
-    return <a href="" onClick={this.reset} className={classes.reset}>reset</a>
+    return <a href="#" onClick={this.reset} className={classes.reset}>reset</a>
   }
 
   onChange = (event) => {
@@ -45,6 +46,10 @@ class Search extends Component {
     );
   }
 }
+
+Search.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
 
 const styles = {
   searchWrap: {

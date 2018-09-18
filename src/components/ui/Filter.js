@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import injectSheet from 'react-jss';
+import PropTypes from 'prop-types';
 
 class Filter extends Component {
 
@@ -70,6 +71,14 @@ class Filter extends Component {
     );
   }
 }
+
+Filter.propTypes = {
+  title: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  data: PropTypes.array.isRequired,
+  onChange: PropTypes.func.isRequired,
+};
 
 const styles = {
   filterWrap: {

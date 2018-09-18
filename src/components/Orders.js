@@ -115,6 +115,12 @@ class Orders extends Component {
 }
 
 const styles = {
+  header: {
+    margin: '0 0 20px 0',
+    '@media (min-width: 768px)': {
+      margin: '0',
+    },
+  },
   container: {
     maxWidth: '900px',
     width: '100%',
@@ -123,8 +129,13 @@ const styles = {
   },
   filters: {
     display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'start',
+    flexDirection: 'column',
+    '@media (min-width: 768px)': {
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      flexDirection: 'row',
+    },
   },
   title: {
     margin: '0 0 20px',

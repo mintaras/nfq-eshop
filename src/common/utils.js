@@ -20,3 +20,11 @@ export function getPagedItems(state) {
 
   return [...items.slice(firstItemIndex, lastItemIndex)];
 }
+
+export function scrollToPosition(position) {
+  const c = document.documentElement.scrollTop || document.body.scrollTop;
+  if (c > position) {
+    window.requestAnimationFrame(() => scrollToPosition(position));
+    window.scrollTo(0, c - c / 8);
+  }
+};

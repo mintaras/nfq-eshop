@@ -1,33 +1,60 @@
-import React from 'react';
+import React, { Component } from 'react';
 import injectSheet from 'react-jss';
+import PropTypes from 'prop-types';
+import { scrollToPosition } from '../../common/utils';
 
-function PageNumbers(props) {
-  const { itemsPerPage, currentPage, total, classes, onClick } = props;
-  const pageNumbers = Array.from({length: Math.ceil(total / itemsPerPage)}, (v, k) => k+1);
+class PageNumbers extends Component {
 
-  if (pageNumbers.length === 1) {
-    return null;
+  handleOnClick = (event) => {
+    const { onClick, scrollTo } = this.props;
+
+    event.preventDefault();
+
+    // Invoke onClick function and set callback function if scrollTo was provided
+    onClick(event, () => scrollTo !== -1 ? scrollToPosition(scrollTo) : null);
   }
 
-  return (
-    <ul className={classes.pageNumbers}>
-      {pageNumbers.map(page => {
-        return (
-          <li key={page}>
-            <a
-              href={`#/?page=${page}`}
-              id={page}
-              onClick={onClick}
-              className={`${currentPage === page ? 'active' : ''}`}
-            >
-              {page}
-            </a>
-          </li>
-        );
-      })}
-    </ul>
-  );
+  render() {
+    const { itemsPerPage, currentPage, total, classes } = this.props;
+    const pageNumbers = Array.from({length: Math.ceil(total / itemsPerPage)}, (v, k) => k+1);
+
+    if (pageNumbers.length === 1) {
+      return null;
+    }
+
+    return (
+      <ul className={classes.pageNumbers}>
+        {pageNumbers.map(page => {
+          return (
+            <li key={page}>
+              <a
+                href={`#/?page=${page}`}
+                id={page}
+                onClick={this.handleOnClick}
+                className={`${currentPage === page ? 'active' : ''}`}
+              >
+                {page}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    );
+  }
 }
+
+PageNumbers.defaultProps = {
+  scrollTo: -1,
+};
+
+PageNumbers.propTypes = {
+  itemsPerPage: PropTypes.number.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  items: PropTypes.array.isRequired,
+  total: PropTypes.number.isRequired,
+  onClick: PropTypes.func.isRequired,
+  scrollTo: PropTypes.number,
+};
 
 const styles = {
   pageNumbers: {
