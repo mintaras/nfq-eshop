@@ -1,0 +1,32 @@
+* {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Titillium Web', sans-serif;
+  line-height: 1.45;
+  font-size: calc(0.65rem + 0.53333vw);
+}
+
+h1 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.6em;
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 0.85em;
+  }
+}
+@media (min-width: 1440px) {
+  body {
+    font-size: 1.25em;
+  }
+}
