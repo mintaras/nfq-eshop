@@ -10,10 +10,6 @@ import Hero from './ui/products/Hero';
 
 class Products extends Component {
 
-  componentDidMount() {
-    this.setListPosition();
-  }
-
   state = {
     data: { items: [...bags, ...hoodies] },
     items: [...bags, ...hoodies],
@@ -51,9 +47,9 @@ class Products extends Component {
     });
   }
 
-  setListPosition = () => {
-    const offsetTop  = this.refs.productsList.getBoundingClientRect().top;
-    this.setState({listOffsetTopPosition: offsetTop});
+  getTitleExcerpt(title, length) {
+    console.log(title.length, length);
+    return title.length > length ? `${title.substring(0, length - 3)}...` : title;
   }
 
   getProducts() {
@@ -65,7 +61,7 @@ class Products extends Component {
         return (
           <li key={product.id} className={classes.product}>
             <div><img src={product.imageUrl} alt={product.name} /></div>
-            <div className="title">{product.title}</div>
+            <div className="title">{this.getTitleExcerpt(product.title, 52)}</div>
             <div className="price">
               <sup className="price-currency">{C.CURRENCY_SYM}</sup>
               {product.price}
@@ -80,7 +76,7 @@ class Products extends Component {
 
   render() {
     const { classes } = this.props;
-    const { itemsPerPage, currentPage, items, listOffsetTopPosition } = this.state;
+    const { itemsPerPage, currentPage, items } = this.state;
     const total = items.length;
 
     return (
@@ -105,7 +101,7 @@ class Products extends Component {
               items={items}
               total={total}
               onClick={this.handlePageNumberClick}
-              scrollTo={listOffsetTopPosition}
+              scrollTo={450}
             />
           </div>
         </div>
@@ -140,6 +136,7 @@ const styles = {
     },
     '& .title': {
       color: '#0066c0',
+      minHeight: '50px',
     },
     '& .price': {
       fontSize: '1.4em',
@@ -148,6 +145,8 @@ const styles = {
     },
     '& img': {
       width: '100%',
+      height: '320px',
+      objectFit: 'contain',
     },
   },
   pagination: {
