@@ -2,67 +2,20 @@ import React, { Component } from 'react';
 import injectSheet from 'react-jss';
 import * as C from '../common/constants';
 import { bags, hoodies, filters } from '../common/data';
-import { searchItems, filterItems, getPagedItems, getExcerpt } from '../common/utils';
+import { getPagedItems, getExcerpt } from '../common/utils';
 import Filter from './ui/Filter';
 import PageNumbers from './ui/PageNumbers';
 import Header from './ui/products/Header';
 import Hero from './ui/products/Hero';
+import container from './Container';
 
 class Products extends Component {
-
-  state = {
-    data: { items: [...bags, ...hoodies] },
-    items: [...bags, ...hoodies],
-    searchText: '',
-    searchParam: 'title',
-    filterType: '',
-    selectedFilters: [],
-    currentPage: 1,
-    itemsPerPage: 9,
-  };
-
-  handlePageNumberClick = (event, callback = null) => {
-    event.preventDefault();
-
-    this.setState(
-      {currentPage: Number(event.target.id)},
-      callback
-    );
-  }
-
-  gotToPage(number) {
-    this.setState({ currentPage: number });
-  }
-
-  updateItems(callback) {
-    this.setState(
-      prevState => ({items: callback(prevState)}),
-      () => this.gotToPage(1)
-    );
-  }
-
-  handleProductsSearch = (event) => {
-    event.preventDefault();
-
-    this.setState(
-      {searchText: event.target.search.value},
-      () => this.updateItems(searchItems)
-    );
-  }
-
-  handleProductsFilter = (selected, filterType) => {
-    this.setState(
-      {selectedFilters: selected, filterType},
-      () => this.updateItems(filterItems)
-    );
-  }
-
   getProducts() {
     const { classes } = this.props;
-    const itemsPaged = getPagedItems(this.state);
+    const itemsPaged = getPagedItems(this.props);
 
     if (itemsPaged.length > 0) {
-      return itemsPaged.map((product) => {
+      return itemsPaged.map(product => {
         return (
           <li key={product.id} className={classes.product}>
             <div><img src={product.imageUrl} alt={product.name} /></div>
@@ -81,12 +34,12 @@ class Products extends Component {
 
   render() {
     const { classes } = this.props;
-    const { itemsPerPage, currentPage, items } = this.state;
+    const { itemsPerPage, currentPage, items } = this.props;
     const total = items.length;
 
     return (
       <div>
-        <Header onSearch={this.handleProductsSearch}/>
+        <Header onSearch={this.props.handleItemsSearch}/>
         <Hero />
         <div className={classes.container}>
           <Filter
@@ -94,7 +47,7 @@ class Products extends Component {
             name="brands"
             type="brand"
             data={filters}
-            onChange={this.handleProductsFilter}
+            onChange={this.props.handleItemsFilter}
           />
           <ul className={classes.products} ref="productsList">
             {this.getProducts()}
@@ -105,7 +58,7 @@ class Products extends Component {
               currentPage={currentPage}
               items={items}
               total={total}
-              onClick={this.handlePageNumberClick}
+              onClick={this.props.handlePageNumberClick}
               scrollTo={450}
             />
           </div>
@@ -159,4 +112,4 @@ const styles = {
   }
 };
 
-export default injectSheet(styles)(Products);
+export default container()(injectSheet(styles)(Products));

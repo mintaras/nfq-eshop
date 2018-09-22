@@ -1,16 +1,17 @@
-export function searchItems(state) {
-    const { data, searchText, searchParam } = state;
+export function searchItems(state, data) {
+  const { searchText, searchParam } = state;
 
-    return data.items.filter((item) => {
-        return item[searchParam].toLowerCase().includes(searchText.toLowerCase())
-    });
+  return data.items.filter(item => {
+    const itemFormated = item[searchParam].toLowerCase();
+    return itemFormated.includes(searchText.toLowerCase());
+  });
 }
 
-export function filterItems(state) {
-    const { selectedFilters, filterType, data } = state;
-    const filteredItems = data.items.filter((item) => selectedFilters.includes(item[filterType]));
+export function filterItems(state, data) {
+  const { selectedFilters, filterType } = state;
+  const filteredItems = data.items.filter(item => selectedFilters.includes(item[filterType]));
 
-    return filteredItems.length > 0 ? filteredItems : data.items;
+  return filteredItems.length > 0 ? filteredItems : data.items;
 }
 
 export function getPagedItems(state) {
@@ -27,7 +28,7 @@ export function scrollToPosition(position) {
     window.requestAnimationFrame(() => scrollToPosition(position));
     window.scrollTo(0, c - c / 8);
   }
-};
+}
 
 export function getExcerpt(text, length) {
   return text.length > length ? `${text.substring(0, length - 3)}...` : text;
