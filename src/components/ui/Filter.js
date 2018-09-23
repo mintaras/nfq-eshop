@@ -31,7 +31,7 @@ class Filter extends Component {
         }
         return this.removeFilter(prevState, event)
       },
-      () => this.props.onChange(this.state.checkedItems, type)
+      () => this.props.onChange({selected: this.state.checkedItems, filterType: type})
     );
   }
 

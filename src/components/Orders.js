@@ -3,64 +3,19 @@ import injectSheet from 'react-jss';
 import { Link } from "react-router-dom";
 import { orders } from '../common/data';
 import * as C from '../common/constants';
-import { searchItems, filterItems, getPagedItems } from '../common/utils';
+import { getPagedItems } from '../common/utils';
 import Filter from './ui/Filter';
 import Search from './ui/Search';
 import PageNumbers from './ui/PageNumbers';
+import listContainer from './Container';
 
 class Orders extends Component {
 
-  state = {
-    data: { items: orders },
-    items: orders,
-    searchText: '',
-    searchParam: 'shipTo',
-    filterType: '',
-    selectedFilters: [],
-    currentPage: 1,
-    itemsPerPage: 5,
-  };
-
-  handlePageNumberClick = (event, callback = null) => {
-    event.preventDefault();
-
-    this.setState(
-      {currentPage: Number(event.target.id)},
-      callback
-    );
-  }
-
-  gotToPage(number) {
-    this.setState({ currentPage: number });
-  }
-
-  updateItems(callback) {
-    this.setState(
-      prevState => ({items: callback(prevState)}),
-      () => this.gotToPage(1)
-    );
-  }
-
-  handleOrdersSearch = (event) => {
-    event.preventDefault();
-
-    this.setState(
-      {searchText: event.target.search.value},
-      () => this.updateItems(searchItems)
-    );
-  }
-
-  handleOrdersFilter = (selected, filterType) => {
-    this.setState(
-      {selectedFilters: selected, filterType},
-      () => this.updateItems(filterItems)
-    );
-  }
-
   getOrders() {
-    const itemsPaged = getPagedItems(this.state);
+    const { items } = this.props;
 
-    if (itemsPaged.length > 0) {
+    if (items.length > 0) {
+      const itemsPaged = getPagedItems(this.props, items);
       return itemsPaged.map((order) => {
         return (
           <tr key={order.id}>
@@ -77,8 +32,15 @@ class Orders extends Component {
   }
 
   render() {
-    const { classes } = this.props;
-    const { itemsPerPage, currentPage, items } = this.state;
+    const {
+      itemsPerPage,
+      currentPage,
+      items,
+      classes,
+      handleItemsFilter,
+      handleItemsSearch,
+      handlePageNumberClick
+    } = this.props;
     const total = items.length;
 
     return (
@@ -96,9 +58,9 @@ class Orders extends Component {
                 {id: 2, name: 'completed'},
                 {id: 3, name: 'delivery'},
               ]}
-              onChange={this.handleOrdersFilter}
+              onChange={handleItemsFilter}
             />
-            <Search onSubmit={this.handleOrdersSearch} />
+            <Search onSubmit={handleItemsSearch} />
           </div>
         </header>
         <table className={classes.ordersTable}>
@@ -119,7 +81,7 @@ class Orders extends Component {
           currentPage={currentPage}
           items={items}
           total={total}
-          onClick={this.handlePageNumberClick}
+          onClick={handlePageNumberClick}
         />
       </div>
     );
@@ -183,4 +145,8 @@ const styles = {
   },
 };
 
-export default injectSheet(styles)(Orders);
+export default listContainer({
+  data: {items: orders},
+  items: orders,
+  searchParam: 'shipTo',
+})(injectSheet(styles)(Orders));

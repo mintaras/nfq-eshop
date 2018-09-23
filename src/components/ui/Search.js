@@ -17,7 +17,7 @@ class Search extends Component {
 
   displayReset() {
     const { classes } = this.props;
-    return <a href="#" onClick={this.reset} className={classes.reset}>reset</a>
+    return <a href="#/reset" onClick={this.reset} className={classes.reset}>reset</a>
   }
 
   onChange = (event) => {

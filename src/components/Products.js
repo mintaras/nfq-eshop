@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
 import injectSheet from 'react-jss';
 import * as C from '../common/constants';
-import { bags, hoodies, filters } from '../common/data';
+import { products, filters } from '../common/data';
 import { getPagedItems, getExcerpt } from '../common/utils';
 import Filter from './ui/Filter';
 import PageNumbers from './ui/PageNumbers';
 import Header from './ui/products/Header';
 import Hero from './ui/products/Hero';
-import container from './Container';
+import listContainer from './Container';
 
 class Products extends Component {
-  getProducts() {
-    const { classes } = this.props;
-    const itemsPaged = getPagedItems(this.props);
 
-    if (itemsPaged.length > 0) {
+  getProducts() {
+    const { items, classes } = this.props;
+
+    if (items.length > 0) {
+      const itemsPaged = getPagedItems(this.props, items);
       return itemsPaged.map(product => {
         return (
           <li key={product.id} className={classes.product}>
@@ -47,7 +48,7 @@ class Products extends Component {
             name="brands"
             type="brand"
             data={filters}
-            onChange={this.props.handleItemsFilter}
+            onChange={(props) => this.props.handleItemsFilter({...props})}
           />
           <ul className={classes.products} ref="productsList">
             {this.getProducts()}
@@ -112,4 +113,8 @@ const styles = {
   }
 };
 
-export default container()(injectSheet(styles)(Products));
+export default listContainer({
+  data: {items: products},
+  items: products,
+  searchParam: 'title',
+})(injectSheet(styles)(Products));

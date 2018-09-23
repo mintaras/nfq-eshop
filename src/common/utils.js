@@ -1,17 +1,31 @@
-export function searchItems(state, data) {
-  const { searchText, searchParam } = state;
+export function searchFilterItems(state) {
+  const { data, searchText, searchParam, selectedFilters, filterType } = state;
 
-  return data.items.filter(item => {
+  if (searchText === '') {
+    if (selectedFilters.length > 0) {
+      return filterItems(data.items, selectedFilters, filterType);
+    }
+
+    return data.items;
+  } else {
+    if (selectedFilters.length > 0) {
+      const filteredItems = filterItems(data.items, selectedFilters, filterType);
+      return searchItems(filteredItems, searchParam, searchText);
+    }
+
+    return searchItems(data.items, searchParam, searchText);
+  }
+}
+
+function searchItems(items, searchParam, searchText) {
+  return items.filter(item => {
     const itemFormated = item[searchParam].toLowerCase();
     return itemFormated.includes(searchText.toLowerCase());
   });
 }
 
-export function filterItems(state, data) {
-  const { selectedFilters, filterType } = state;
-  const filteredItems = data.items.filter(item => selectedFilters.includes(item[filterType]));
-
-  return filteredItems.length > 0 ? filteredItems : data.items;
+function filterItems(items, selectedFilters, filterType) {
+  return items.filter(item => selectedFilters.includes(item[filterType]));
 }
 
 export function getPagedItems(state) {

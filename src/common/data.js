@@ -644,3 +644,8 @@ export const filters = [
   {id: 4, name: 'puma', isChecked: false},
   {id: 5, name: 'fila', isChecked: false},
 ];
+export const products = [...bags, ...hoodies];
+export const data = {
+  products,
+  orders,
+};

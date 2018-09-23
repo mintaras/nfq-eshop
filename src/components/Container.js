@@ -1,20 +1,24 @@
 import React, { Component } from 'react';
-import { bags, hoodies } from '../common/data';
-import { searchItems, filterItems } from '../common/utils';
+import { searchFilterItems } from '../common/utils';
 
-function container() {
+function listContainer(config) {
   return function(WrappedComponent) {
 
     class StateLoader extends Component {
+      constructor(props) {
+        super(props);
 
-      state = {
-        items: [],
-        searchText: '',
-        filterType: '',
-        selectedFilters: [],
-        currentPage: 1,
-        itemsPerPage: 9,
-      };
+        this.state = {
+          data: config.data,
+          items: config.items,
+          searchParam: config.searchParam,
+          searchText: '',
+          filterType: '',
+          selectedFilters: [],
+          currentPage: 1,
+          itemsPerPage: 9,
+        };
+      }
 
       handlePageNumberClick = (event, callback = null) => {
         event.preventDefault();
@@ -29,9 +33,9 @@ function container() {
         this.setState({ currentPage: number });
       }
 
-      updateItems = (callback) => {
+      updateItems = () => {
         this.setState(
-          prevState => ({items: callback(prevState, )}),
+          prevState => ({items: searchFilterItems(prevState)}),
           () => this.gotToPage(1)
         );
       }
@@ -41,14 +45,14 @@ function container() {
 
         this.setState(
           {searchText: event.target.search.value},
-          () => this.updateItems(searchItems)
+          () => this.updateItems()
         );
       }
 
-      handleItemsFilter = (selected, filterType) => {
+      handleItemsFilter = ({selected, filterType}) => {
         this.setState(
           {selectedFilters: selected, filterType},
-          () => this.updateItems(filterItems)
+          () => this.updateItems()
         );
       }
 
@@ -69,4 +73,4 @@ function container() {
   }
 }
 
-export default container;
+export default listContainer;
