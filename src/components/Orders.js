@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import injectSheet from 'react-jss';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import { orders } from '../common/data';
 import * as C from '../common/constants';
 import { getPagedItems } from '../common/utils';
@@ -10,22 +10,20 @@ import PageNumbers from './ui/PageNumbers';
 import listContainer from './Container';
 
 class Orders extends Component {
-
   getOrders() {
     const { items } = this.props;
 
     if (items.length > 0) {
       const itemsPaged = getPagedItems(this.props, items);
-      return itemsPaged.map((order) => {
-        return (
-          <tr key={order.id}>
-            <td>{order.status}</td>
-            <td>{`#${order.id} by ${order.client.name} ${order.client.email}`}</td>
-            <td>{order.shipTo}</td>
-            <td>{`${C.CURRENCY_SYM} ${order.total}`}</td>
-          </tr>
-        );
-      });
+
+      return itemsPaged.map((order) =>
+        <tr key={order.id}>
+          <td>{order.status}</td>
+          <td>{`#${order.id} by ${order.client.name} ${order.client.email}`}</td>
+          <td>{order.shipTo}</td>
+          <td>{`${C.CURRENCY_SYM} ${order.total}`}</td>
+        </tr>
+      );
     }
 
     return <tr><td colSpan="4">{C.NO_RESULTS}</td></tr>;
@@ -39,7 +37,7 @@ class Orders extends Component {
       classes,
       handleItemsFilter,
       handleItemsSearch,
-      handlePageNumberClick
+      handlePageNumberClick,
     } = this.props;
     const total = items.length;
 
@@ -54,9 +52,9 @@ class Orders extends Component {
               name="status"
               type="status"
               data={[
-                {id: 1, name: 'pending'},
-                {id: 2, name: 'completed'},
-                {id: 3, name: 'delivery'},
+                { id: 1, name: 'pending' },
+                { id: 2, name: 'completed' },
+                { id: 3, name: 'delivery' },
               ]}
               onChange={handleItemsFilter}
             />
@@ -146,7 +144,7 @@ const styles = {
 };
 
 export default listContainer({
-  data: {items: orders},
+  data: { items: orders },
   items: orders,
   searchParam: 'shipTo',
 })(injectSheet(styles)(Orders));

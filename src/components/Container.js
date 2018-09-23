@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { searchFilterItems } from '../common/utils';
 
 function listContainer(config) {
-  return function(WrappedComponent) {
-
+  return function h(WrappedComponent) {
     class StateLoader extends Component {
       constructor(props) {
         super(props);
@@ -24,7 +23,7 @@ function listContainer(config) {
         event.preventDefault();
 
         this.setState(
-          {currentPage: Number(event.target.id)},
+          { currentPage: Number(event.target.id) },
           callback
         );
       }
@@ -35,7 +34,7 @@ function listContainer(config) {
 
       updateItems = () => {
         this.setState(
-          prevState => ({items: searchFilterItems(prevState)}),
+          prevState => ({ items: searchFilterItems(prevState) }),
           () => this.gotToPage(1)
         );
       }
@@ -44,14 +43,14 @@ function listContainer(config) {
         event.preventDefault();
 
         this.setState(
-          {searchText: event.target.search.value},
+          { searchText: event.target.search.value },
           () => this.updateItems()
         );
       }
 
-      handleItemsFilter = ({selected, filterType}) => {
+      handleItemsFilter = ({ selected, filterType }) => {
         this.setState(
-          {selectedFilters: selected, filterType},
+          { selectedFilters: selected, filterType },
           () => this.updateItems()
         );
       }
@@ -70,7 +69,7 @@ function listContainer(config) {
     }
 
     return StateLoader;
-  }
+  };
 }
 
 export default listContainer;

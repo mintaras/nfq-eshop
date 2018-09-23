@@ -10,37 +10,41 @@ import Hero from './ui/products/Hero';
 import listContainer from './Container';
 
 class Products extends Component {
-
   getProducts() {
     const { items, classes } = this.props;
 
     if (items.length > 0) {
       const itemsPaged = getPagedItems(this.props, items);
-      return itemsPaged.map(product => {
-        return (
-          <li key={product.id} className={classes.product}>
-            <div><img src={product.imageUrl} alt={product.name} /></div>
-            <div className="title">{getExcerpt(product.title, 52)}</div>
-            <div className="price">
-              <sup className="price-currency">{C.CURRENCY_SYM}</sup>
-              {product.price}
-            </div>
-          </li>
-        );
-      });
+
+      return itemsPaged.map(product =>
+        <li key={product.id} className={classes.product}>
+          <div><img src={product.imageUrl} alt={product.name} /></div>
+          <div className="title">{getExcerpt(product.title, 52)}</div>
+          <div className="price">
+            <sup className="price-currency">{C.CURRENCY_SYM}</sup>
+            {product.price}
+          </div>
+        </li>
+      );
     }
 
     return <div>{C.NO_RESULTS}</div>;
   }
 
   render() {
-    const { classes } = this.props;
-    const { itemsPerPage, currentPage, items } = this.props;
+    const {
+      itemsPerPage,
+      currentPage,
+      items,
+      classes,
+      handleItemsFilter,
+      handleItemsSearch,
+    } = this.props;
     const total = items.length;
 
     return (
       <div>
-        <Header onSearch={this.props.handleItemsSearch}/>
+        <Header onSearch={handleItemsSearch} />
         <Hero />
         <div className={classes.container}>
           <Filter
@@ -48,7 +52,7 @@ class Products extends Component {
             name="brands"
             type="brand"
             data={filters}
-            onChange={(props) => this.props.handleItemsFilter({...props})}
+            onChange={handleItemsFilter}
           />
           <ul className={classes.products} ref="productsList">
             {this.getProducts()}
@@ -100,7 +104,7 @@ const styles = {
     '& .price': {
       fontSize: '1.4em',
       fontWeight: 'bold',
-      margin: '10px 0 0'
+      margin: '10px 0 0',
     },
     '& img': {
       width: '100%',
@@ -110,11 +114,11 @@ const styles = {
   },
   pagination: {
     textAlign: 'center',
-  }
+  },
 };
 
 export default listContainer({
-  data: {items: products},
+  data: { items: products },
   items: products,
   searchParam: 'title',
 })(injectSheet(styles)(Products));

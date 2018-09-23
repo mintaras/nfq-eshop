@@ -3,46 +3,47 @@ import injectSheet from 'react-jss';
 import PropTypes from 'prop-types';
 
 class Search extends Component {
-
   state = {
-    value: ''
+    value: '',
+  }
+
+  onChange = (event) => {
+    this.setState({ value: event.target.value });
   }
 
   reset = (event) => {
     event.preventDefault();
-    this.setState({value: ''}, () => {
+    this.setState({ value: '' }, () => {
       this.refs.submitBtn.click();
     });
   }
 
   displayReset() {
     const { classes } = this.props;
-    return <a href="#/reset" onClick={this.reset} className={classes.reset}>reset</a>
-  }
 
-  onChange = (event) => {
-    this.setState({value: event.target.value})
+    return <a href="#/reset" onClick={this.reset} className={classes.reset}>reset</a>;
   }
 
   render() {
     const { classes } = this.props;
+
     return (
-        <div className={classes.searchWrap}>
-          <form className={classes.form} onSubmit={this.props.onSubmit}>
-            <input
-              className={classes.searchInput}
-              type="text"
-              id="search"
-              placeholder="Search"
-              value={this.state.value}
-              onChange={this.onChange}
-            />
-            {this.state.value && this.displayReset()}
-            <button className={classes.searchButton} ref="submitBtn">
-              <img src="./assets/icons/search-icon.svg" alt="search-icon" />
-            </button>
-          </form>
-        </div>
+      <div className={classes.searchWrap}>
+        <form className={classes.form} onSubmit={this.props.onSubmit}>
+          <input
+            className={classes.searchInput}
+            type="text"
+            id="search"
+            placeholder="Search"
+            value={this.state.value}
+            onChange={this.onChange}
+          />
+          {this.state.value && this.displayReset()}
+          <button className={classes.searchButton} ref="submitBtn">
+            <img src="./assets/icons/search-icon.svg" alt="search-icon" />
+          </button>
+        </form>
+      </div>
     );
   }
 }
@@ -85,7 +86,7 @@ const styles = {
     right: '63px',
     top: '8px',
     fontSize: '0.8em',
-  }
+  },
 };
 
 export default injectSheet(styles)(Search);

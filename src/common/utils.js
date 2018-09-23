@@ -10,6 +10,7 @@ export function searchFilterItems(state) {
   } else {
     if (selectedFilters.length > 0) {
       const filteredItems = filterItems(data.items, selectedFilters, filterType);
+
       return searchItems(filteredItems, searchParam, searchText);
     }
 
@@ -20,6 +21,7 @@ export function searchFilterItems(state) {
 function searchItems(items, searchParam, searchText) {
   return items.filter(item => {
     const itemFormated = item[searchParam].toLowerCase();
+
     return itemFormated.includes(searchText.toLowerCase());
   });
 }
@@ -38,6 +40,7 @@ export function getPagedItems(state) {
 
 export function scrollToPosition(position) {
   const c = document.documentElement.scrollTop || document.body.scrollTop;
+
   if (c > position) {
     window.requestAnimationFrame(() => scrollToPosition(position));
     window.scrollTo(0, c - c / 8);

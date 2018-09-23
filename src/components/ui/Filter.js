@@ -3,43 +3,16 @@ import injectSheet from 'react-jss';
 import PropTypes from 'prop-types';
 
 class Filter extends Component {
-
   state = {
     checkedItems: [],
   };
-
-  addFilter(prevState, event) {
-    return { checkedItems: [...prevState.checkedItems, event.target.value] };
-  }
-
-  removeFilter(prevState, event) {
-    const newItems = prevState.checkedItems.filter((item) => {
-      return item !== event.target.value;
-    });
-    return { checkedItems: [...newItems] };
-  }
-
-  hangleChange = (event) => {
-    const { type } = this.props;
-
-    event.persist();
-
-    this.setState(
-      prevState => {
-        if (event.target.checked) {
-          return this.addFilter(prevState, event)
-        }
-        return this.removeFilter(prevState, event)
-      },
-      () => this.props.onChange({selected: this.state.checkedItems, filterType: type})
-    );
-  }
 
   getFilters() {
     const { classes, name, data } = this.props;
 
     return data.map((item) => {
       const id = `${item.name}-${item.id}`;
+
       return (
         <li key={id}>
           <input
@@ -57,8 +30,36 @@ class Filter extends Component {
     });
   }
 
+  hangleChange = (event) => {
+    const { type } = this.props;
+
+    event.persist();
+
+    this.setState(
+      prevState => {
+        if (event.target.checked) {
+          return this.addFilter(prevState, event);
+        }
+
+        return this.removeFilter(prevState, event);
+      },
+      () => this.props.onChange({ selected: this.state.checkedItems, filterType: type })
+    );
+  }
+
+  removeFilter(prevState, event) {
+    const newItems = prevState.checkedItems.filter((item) => item !== event.target.value);
+
+    return { checkedItems: [...newItems] };
+  }
+
+  addFilter(prevState, event) {
+    return { checkedItems: [...prevState.checkedItems, event.target.value] };
+  }
+
   render() {
     const { classes, title } = this.props;
+
     return (
       <div className={classes.filterWrap}>
         <div className={classes.title}>{title}:</div>
@@ -81,7 +82,7 @@ Filter.propTypes = {
 const styles = {
   filterWrap: {
     margin: '20px 0',
-    display: 'flex'
+    display: 'flex',
   },
   filters: {
     display: 'flex',

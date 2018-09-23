@@ -638,11 +638,11 @@ export const orders = [
   },
 ];
 export const filters = [
-  {id: 1, name: 'adidas', isChecked: false},
-  {id: 2, name: 'nike', isChecked: false},
-  {id: 3, name: 'under-armour', isChecked: false},
-  {id: 4, name: 'puma', isChecked: false},
-  {id: 5, name: 'fila', isChecked: false},
+  { id: 1, name: 'adidas', isChecked: false },
+  { id: 2, name: 'nike', isChecked: false },
+  { id: 3, name: 'under-armour', isChecked: false },
+  { id: 4, name: 'puma', isChecked: false },
+  { id: 5, name: 'fila', isChecked: false },
 ];
 export const products = [...bags, ...hoodies];
 export const data = {

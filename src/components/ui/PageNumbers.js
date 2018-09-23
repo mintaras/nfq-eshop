@@ -4,19 +4,24 @@ import PropTypes from 'prop-types';
 import { scrollToPosition } from '../../common/utils';
 
 class PageNumbers extends Component {
-
   handleOnClick = (event) => {
     const { onClick, scrollTo } = this.props;
 
     event.preventDefault();
 
     // Invoke onClick function and set callback function if scrollTo was provided
-    onClick(event, () => scrollTo !== -1 ? scrollToPosition(scrollTo) : null);
+    onClick(event, () => {
+      if (scrollTo !== -1) {
+        scrollToPosition(scrollTo);
+      }
+
+      return null;
+    });
   }
 
   render() {
     const { itemsPerPage, currentPage, total, classes } = this.props;
-    const pageNumbers = Array.from({length: Math.ceil(total / itemsPerPage)}, (v, k) => k+1);
+    const pageNumbers = Array.from({ length: Math.ceil(total / itemsPerPage) }, (v, k) => k + 1);
 
     if (pageNumbers.length === 1) {
       return null;
@@ -24,20 +29,18 @@ class PageNumbers extends Component {
 
     return (
       <ul className={classes.pageNumbers}>
-        {pageNumbers.map(page => {
-          return (
-            <li key={page}>
-              <a
-                href={`#/?page=${page}`}
-                id={page}
-                onClick={this.handleOnClick}
-                className={`${currentPage === page ? 'active' : ''}`}
-              >
-                {page}
-              </a>
-            </li>
-          );
-        })}
+        {pageNumbers.map(page =>
+          <li key={page}>
+            <a
+              href={`#/?page=${page}`}
+              id={page}
+              onClick={this.handleOnClick}
+              className={`${currentPage === page ? 'active' : ''}`}
+            >
+              {page}
+            </a>
+          </li>
+        )}
       </ul>
     );
   }
@@ -73,7 +76,7 @@ const styles = {
         borderColor: '#febd69',
       },
     },
-  }
+  },
 };
 
 export default injectSheet(styles)(PageNumbers);
